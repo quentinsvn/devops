@@ -1,19 +1,15 @@
-name: build
+name: CI/CD
 
 on: [push]
 
 jobs:
-  Build:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-        with:
-          # Disabling shallow clone is recommended for improving relevancy of SonarCloud reporting
-          fetch-depth: 0
-      - uses: actions/setup-node@v2
-        with:
-          node-version: "18"
+      - uses: actions/checkout@v3
+      # - uses: actions/setup-node@v2
+      #   with:
+      #     node-version: "18"
       - run: npm install
       - run: npm run build
-
-      - run: ls -a
+      - run: ls -lah
