@@ -6,14 +6,13 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
       - run: | 
           mkdir -p ~/.ssh
-          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/know_hosts
-          chmod 644 ~/.ssh/know_hosts
+          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
 
       - uses: webfactory/ssh-agent@v0.5.4
         with:
-          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh-private-key: ${{ secrets.SSH_KEY }}
       
-      - run: ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "ls"
+      - run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls"
