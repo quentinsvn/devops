@@ -1,36 +1,18 @@
-name: Build and Deploy
+name: Deploy App
 
 on: [push]
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Main Branch
-        uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-          ref: main
-
-      - name: Use Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: "16.x"
-
-      - name: Install Dependencies
-        run: npm install
-
-      - name: Build Application
-        run: npm run build
-
-      - name: Install SSH Key
-        uses: shimataro/ssh-key-action@v2
-        with:
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
-          known_hosts: unnecessary
-          
-      - name: Adding Known Hosts
-        run: |
+      - run: | 
           mkdir -p ~/.ssh
-          touch ~/.ssh/authorized_keys
-          ssh-keyscan -H ${{ secrets.SSH_HOST }}  >> ~/.ssh/known_hosts
+          ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/know_hosts
+          chmod 644 ~/.ssh/know_hosts
+
+      - uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      
+      - run: ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "ls"
