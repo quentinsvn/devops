@@ -15,6 +15,6 @@ jobs:
         with:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
       
-      - run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls"
+      - run: ssh ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} "ls"
 
       #- run: ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} "ls"
