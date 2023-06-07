@@ -18,3 +18,4 @@ jobs:
         with:
           name: e2e-video
           path: cypress/videos/
+          pm2 start npm -- run start
